@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Universitario de Egresados y Vinculación</title>
+    <!-- Google Fonts & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Enlace a la hoja de estilos CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ======================================================= -->
+    <!-- MÓDULO DE LOGIN / AUTENTICACIÓN                        -->
+    <!-- ======================================================= -->
+    <div id="login-container" class="login-wrapper">
+        <div class="login-card">
+            <div class="login-header">
+                <i class="fa-solid fa-graduation-cap logo-icon"></i>
+                <h2>Sistema de Egresados</h2>
+                <p>Bolsa de Trabajo y Vinculación Universitaria</p>
+            </div>
+
+            <!-- Botones Selector de Tipo de Usuario -->
+            <div class="login-tabs">
+    <button type="button" class="tab-btn active" id="tab-alumno" onclick="selectLoginType('alumno')">
+        <i class="fa-solid fa-user-graduate"></i> Egresado / Alumno
+    </button>
+    <button type="button" class="tab-btn" id="tab-admin" onclick="selectLoginType('admin')">
+        <i class="fa-solid fa-user-shield"></i> Vinculación / Admin
+    </button>
+</div>
+
+            <!-- Formulario de Inicio de Sesión -->
+            <form id="form-login" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label id="lbl-user">Correo Electrónico Institucional</label>
+                    <div class="input-icon-wrapper">
+                        <i class="fa-solid fa-envelope input-icon"></i>
+                        <input type="text" id="input-username" class="form-control" placeholder="usuario@universidad.edu" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <div class="input-icon-wrapper">
+                        <i class="fa-solid fa-lock input-icon"></i>
+                        <input type="password" id="input-password" class="form-control" placeholder="••••••••" required>
+                    </div>
+                </div>
+
+                <div id="login-hint" class="login-hint">
+                    <p><i class="fa-solid fa-info-circle"></i> <strong>Contraseña por defecto para egresados:</strong> 12345</p>
+                </div>
+
+                <button type="submit" class="btn btn-primary-full">Iniciar Sesión</button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- ======================================================= -->
+    <!-- MÓDULO 1: PANEL DEL ALUMNO / EGRESADO                  -->
+    <!-- ======================================================= -->
+    <div id="panel-alumno" class="main-panel">
+        <aside>
+            <div>
+                <div class="sidebar-header">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <h2>EgresadosApp</h2>
+                </div>
+                <ul class="sidebar-menu">
+                    <li><a href="#" class="nav-link-alumno active" data-target="dash-alumno"><i class="fa-solid fa-house"></i> <span>Inicio</span></a></li>
+                    <li><a href="#" class="nav-link-alumno" data-target="vacantes-alumno"><i class="fa-solid fa-briefcase"></i> <span>Bolsa de Trabajo</span></a></li>
+                    <li><a href="#" class="nav-link-alumno" data-target="postulaciones-alumno"><i class="fa-solid fa-paper-plane"></i> <span>Mis Postulaciones</span></a></li>
+                    <li><a href="#" class="nav-link-alumno" data-target="perfil-alumno"><i class="fa-solid fa-user-gear"></i> <span>Mi Perfil & CV</span></a></li>
+                </ul>
+            </div>
+            <div class="sidebar-footer">
+                <span style="font-size: 0.85rem; color: var(--text-muted);">Alumno / Egresado</span>
+                <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i></button>
+            </div>
+        </aside>
+
+        <main>
+            <header class="top-header">
+                <div class="header-title">
+                    <h1 id="page-title-alumno">Panel Principal</h1>
+                    <p>Encuentra las mejores oportunidades laborales diseñadas para tu perfil.</p>
+                </div>
+                <div class="user-actions">
+                    <button class="notification-btn" title="Notificaciones" onclick="alert('No tienes notificaciones nuevas.')"><i class="fa-regular fa-bell"></i></button>
+                    <button class="theme-toggle" id="themeToggleBtn" title="Cambiar Tema"><i class="fa-solid fa-moon"></i></button>
+                    <div class="user-profile-badge">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=faces" alt="Avatar">
+                        <div class="user-info-text">
+                            <h4 id="alumno-logged-name">Ana Sofía Garza</h4>
+                            <span>Ing. en Sistemas</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Inicio Alumno -->
+            <div id="dash-alumno" class="tab-content active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon blue"><i class="fa-solid fa-briefcase"></i></div>
+                        <div class="stat-details">
+                            <h3 id="stat-vacantes">4</h3>
+                            <p>Vacantes Disponibles</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green"><i class="fa-solid fa-paper-plane"></i></div>
+                        <div class="stat-details">
+                            <h3 id="stat-postulaciones">2</h3>
+                            <p>Mis Postulaciones</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange"><i class="fa-solid fa-star"></i></div>
+                        <div class="stat-details">
+                            <h3>95%</h3>
+                            <p>Perfil Completado</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 style="margin-bottom: 1rem; font-size: 1.3rem;">Oportunidades Destacadas</h2>
+                <div class="jobs-grid" id="featured-jobs-grid"></div>
+            </div>
+
+            <!-- Bolsa de Trabajo Alumno -->
+            <div id="vacantes-alumno" class="tab-content">
+                <div class="filters-container">
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="searchInput" placeholder="Buscar por puesto o empresa...">
+                    </div>
+                    <select class="filter-select" id="categoryFilter">
+                        <option value="">Todas las áreas</option>
+                        <option value="Tecnología">Tecnología / TI</option>
+                        <option value="Administración">Administración & Finanzas</option>
+                        <option value="Ingeniería">Ingeniería</option>
+                    </select>
+                    <select class="filter-select" id="modalidadFilter">
+                        <option value="">Todas las modalidades</option>
+                        <option value="Remoto">Remoto</option>
+                        <option value="Híbrido">Híbrido</option>
+                        <option value="Presencial">Presencial</option>
+                    </select>
+                </div>
+                <div class="jobs-grid" id="all-jobs-grid"></div>
+            </div>
+
+            <!-- Postulaciones Alumno -->
+            <div id="postulaciones-alumno" class="tab-content">
+                <div class="card">
+                    <h2 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Historial de Postulaciones</h2>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Monitorea el estado actual de tus procesos de selección.</p>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Empresa</th>
+                                    <th>Puesto</th>
+                                    <th>Fecha de Postulación</th>
+                                    <th>Modalidad</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Tech Solutions Inc.</td>
+                                    <td>Desarrollador Frontend Jr.</td>
+                                    <td>10 Oct 2026</td>
+                                    <td>Remoto</td>
+                                    <td><span class="status-badge review">En revisión</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Global Logistics</td>
+                                    <td>Analista de Datos</td>
+                                    <td>05 Oct 2026</td>
+                                    <td>Híbrido</td>
+                                    <td><span class="status-badge pending">CV Recibido</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Perfil Alumno -->
+            <div id="perfil-alumno" class="tab-content">
+                <div class="profile-container">
+                    <div class="card" style="text-align: center;">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop&crop=faces" alt="Avatar" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem; border: 3px solid var(--primary);">
+                        <h3>Ana Sofía Garza</h3>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Licenciada en Ciencias Computacionales</p>
+                        <div style="border-top: 1px solid var(--border); padding-top: 1rem; text-align: left;">
+                            <p style="font-size: 0.85rem; margin-bottom: 0.5rem;"><strong>Currículum Vitae:</strong></p>
+                            <a href="#" class="btn btn-outline" style="display: block; text-align: center; font-size: 0.85rem; text-decoration: none; margin-bottom: 1rem;"><i class="fa-solid fa-file-arrow-down"></i> Descargar CV.pdf</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h2 style="font-size: 1.2rem; margin-bottom: 1rem;">Información Académica Registrada</h2>
+                        <form onsubmit="event.preventDefault(); alert('Perfil guardado exitosamente.');">
+                            <div class="form-group">
+                                <label>Matrícula / ID Único</label>
+                                <input type="text" class="form-control" value="A00823451" disabled style="opacity: 0.7;">
+                            </div>
+                            <div class="form-group">
+                                <label>Carrera Registrada</label>
+                                <input type="text" class="form-control" value="Ingeniería en Sistemas Computacionales" disabled style="opacity: 0.7;">
+                            </div>
+                            <div class="form-group">
+                                <label>Promedio General (Kardex)</label>
+                                <input type="text" class="form-control" value="94.5 / 100" disabled style="opacity: 0.7;">
+                            </div>
+                            <div class="form-group">
+                                <label>Habilidades Técnicas</label>
+                                <input type="text" class="form-control" value="JavaScript, Python, React, SQL, Git">
+                            </div>
+                            <button type="submit" class="btn">Guardar Cambios</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+
+    <!-- ======================================================= -->
+    <!-- MÓDULO 2: PANEL DEL ADMINISTRADOR (VINCULACIÓN)        -->
+    <!-- ======================================================= -->
+    <div id="panel-admin" class="main-panel">
+        <aside>
+            <div>
+                <div class="sidebar-header" style="border-color: var(--warning);">
+                    <i class="fa-solid fa-shield-halved" style="color: var(--warning);"></i>
+                    <h2>Vinculación Admin</h2>
+                </div>
+                <ul class="sidebar-menu">
+                    <li><a href="#" class="nav-link-admin active" data-target="admin-vacantes"><i class="fa-solid fa-plus-circle"></i> <span>Publicar Vacantes</span></a></li>
+                    <li><a href="#" class="nav-link-admin" data-target="admin-egresados"><i class="fa-solid fa-users-rectangle"></i> <span>Gestión de Egresados</span></a></li>
+                </ul>
+            </div>
+            <div class="sidebar-footer">
+                <span style="font-size: 0.85rem; color: var(--text-muted);">Área de Vinculación</span>
+                <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Salir</button>
+            </div>
+        </aside>
+
+        <main>
+            <header class="top-header">
+                <div class="header-title">
+                    <h1 id="page-title-admin">Gestión de Vinculación y Bolsa de Trabajo</h1>
+                    <p>Administra las ofertas laborales y registra nuevos egresados en el sistema universitario.</p>
+                </div>
+                <div class="user-actions">
+                    <div class="user-profile-badge" style="border-color: var(--warning);">
+                        <div class="stat-icon orange" style="width: 30px; height: 30px; font-size: 0.9rem;"><i class="fa-solid fa-user-tie"></i></div>
+                        <div class="user-info-text">
+                            <h4>Lic. Roberto Mendiola</h4>
+                            <span>Jefe de Vinculación</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Vacantes Admin -->
+            <div id="admin-vacantes" class="tab-content active">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <div class="card">
+                        <h2 style="font-size: 1.2rem; margin-bottom: 1rem;"><i class="fa-solid fa-briefcase"></i> Registrar Nueva Vacante</h2>
+                        <form id="formNewJob" onsubmit="addNewJob(event)">
+                            <div class="form-group">
+                                <label>Título del Puesto</label>
+                                <input type="text" id="jobTitle" class="form-control" placeholder="Ej. Desarrollador Backend" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Empresa Ofrecedora</label>
+                                <input type="text" id="jobCompany" class="form-control" placeholder="Ej. Corporativo Tecnológico S.A." required>
+                            </div>
+                            <div class="form-group">
+                                <label>Área / Categoría</label>
+                                <select id="jobCategory" class="form-control" required>
+                                    <option value="Tecnología">Tecnología / TI</option>
+                                    <option value="Administración">Administración & Finanzas</option>
+                                    <option value="Ingeniería">Ingeniería</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Modalidad</label>
+                                <select id="jobModality" class="form-control" required>
+                                    <option value="Remoto">Remoto</option>
+                                    <option value="Híbrido">Híbrido</option>
+                                    <option value="Presencial">Presencial</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Ubicación</label>
+                                <input type="text" id="jobLocation" class="form-control" placeholder="Ej. Monterrey, N.L." required>
+                            </div>
+                            <div class="form-group">
+                                <label>Salario Estimado</label>
+                                <input type="text" id="jobSalary" class="form-control" placeholder="Ej. $28,000 MXN" required>
+                            </div>
+                            <button type="submit" class="btn" style="width: 100%;">Publicar Vacante en Bolsa</button>
+                        </form>
+                    </div>
+
+                    <div class="card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <h2 style="font-size: 1.2rem;"><i class="fa-solid fa-list-check"></i> Vacantes Activas</h2>
+                            <button class="btn btn-outline" style="font-size: 0.8rem;" onclick="exportVacantesCSV()"><i class="fa-solid fa-file-excel" style="color: #10b981;"></i> Exportar CSV</button>
+                        </div>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Estas ofertas son visibles de inmediato para los egresados.</p>
+                        <div id="admin-jobs-list" style="max-height: 450px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.75rem;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Egresados Admin -->
+            <div id="admin-egresados" class="tab-content">
+                <div style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 2rem;">
+                    
+                    <div class="card">
+                        <h2 style="font-size: 1.2rem; margin-bottom: 1rem;"><i class="fa-solid fa-user-plus"></i> Registrar Nuevo Egresado</h2>
+                        <form id="formNewGraduate" onsubmit="addNewGraduate(event)">
+                            <div class="form-group">
+                                <label>Matrícula / ID Único</label>
+                                <input type="text" id="gradMatricula" class="form-control" placeholder="Ej. A00948212" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Nombre Completo</label>
+                                <input type="text" id="gradNombre" class="form-control" placeholder="Ej. Sofía Ramírez Cárdenas" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Correo Institucional</label>
+                                <input type="email" id="gradEmail" class="form-control" placeholder="sofia.ramirez@universidad.edu" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Carrera / Especialidad</label>
+                                <input type="text" id="gradCarrera" class="form-control" placeholder="Ej. Ing. en Tecnologías de Información" required>
+                            </div>
+                            <div class="form-group" style="display: flex; gap: 1rem;">
+                                <div style="flex: 1;">
+                                    <label>Año Graduación</label>
+                                    <input type="number" id="gradAnio" class="form-control" value="2026" required>
+                                </div>
+                                <div style="flex: 1;">
+                                    <label>Promedio</label>
+                                    <input type="text" id="gradPromedio" class="form-control" placeholder="92.0" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Estatus Académico</label>
+                                <select id="gradEstatus" class="form-control" required>
+                                    <option value="Titulado">Titulado</option>
+                                    <option value="En Titulación">En Proceso de Titulación</option>
+                                    <option value="Egresado No Titulado">Egresado No Titulado</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn" style="width: 100%;">Registrar Egresado</button>
+                        </form>
+                    </div>
+
+                    <div class="card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <h2 style="font-size: 1.2rem;"><i class="fa-solid fa-graduation-cap"></i> Base de Datos de Egresados</h2>
+                            <button class="btn btn-outline" style="font-size: 0.8rem;" onclick="exportEgresadosCSV()"><i class="fa-solid fa-file-excel" style="color: #10b981;"></i> Exportar CSV</button>
+                        </div>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Expedientes registrados y validados por el área de vinculación.</p>
+
+                        <div class="table-responsive" style="max-height: 480px; overflow-y: auto;">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Matrícula</th>
+                                        <th>Nombre</th>
+                                        <th>Carrera</th>
+                                        <th>Promedio</th>
+                                        <th>Estatus</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-graduates-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Enlace al archivo JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
